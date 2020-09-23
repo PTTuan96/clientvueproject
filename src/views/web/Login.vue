@@ -11,8 +11,17 @@
 
             <v-text-field v-model="user.password" label="E-mail" required></v-text-field>
 
-            <v-btn type="submit" color="blue darken-1" text>Confirm</v-btn>
-            <v-btn @click.prevent="getMembers" color="blue darken-1" text>Signin</v-btn>
+            <v-row>
+            <v-col>
+              <v-btn type="submit" color="blue darken-1" text>Confirm</v-btn>
+            </v-col>
+
+            <v-spacer></v-spacer>
+
+            <v-col>
+              <v-btn @click.prevent="getMembers" color="blue darken-1" text>Signin</v-btn>
+            </v-col>
+          </v-row>
           </form>
       
       </v-container>

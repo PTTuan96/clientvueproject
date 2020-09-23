@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
-// import Home from './views/Home.vue'
 import Web from '@/views/web'
-import About from './views/About.vue'
 import AdminLogin from './views/admin/AdminLogin.vue'
 import Secure from './components/Secure.vue'
 import Register from './components/Register.vue'
@@ -35,12 +33,8 @@ let router = new Router({
       meta: { 
         requiresAuth: true
       }
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
     }
+   
   ]
 })
 

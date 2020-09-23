@@ -1,0 +1,20 @@
+<template>
+  <v-app class="grey lighten-4">
+    <admin/>
+    <web/>
+  </v-app>
+</template>
+
+<script>
+// import Navbar from '@/components/Navbar.vue'
+import web from '@/views/web'
+import admin from '@/views/admin'
+
+export default {
+  name: 'App',
+  components: { web,admin },
+  data: () => ({
+    //
+  }),
+};
+</script>

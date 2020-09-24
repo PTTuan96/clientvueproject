@@ -4,9 +4,10 @@ import store from '@/store'
 import Web from '@/views/web'
 import AdminLogin from './views/admin/AdminLogin.vue'
 import Secure from './components/Secure.vue'
-import Register from './components/Register.vue'
+// import Register from '@/views/web/Register.vue'
 import AdminLayout from './views/admin/AdminLayout.vue'
 import { autoLogin } from '@/api/UserApi';
+import Success from '@/views/web/Success'
 Vue.use(Router)
 
 let routes = [
@@ -21,9 +22,9 @@ let routes = [
     component: AdminLogin
   },
   {
-    path: '/register',
-    name: 'register',
-    component: Register
+    path: '/success',
+    name: 'success',
+    component: Success
   },
   {
     path: '/secure',

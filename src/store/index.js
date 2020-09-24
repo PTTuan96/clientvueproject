@@ -5,6 +5,11 @@ import auth from '@/store/auth'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+	data() {
+		return {
+			dialog: false,
+		}
+	},
 	modules:{
 		auth
 	}

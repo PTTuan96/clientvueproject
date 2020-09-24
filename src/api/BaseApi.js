@@ -7,8 +7,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(request => {
     // console.log("Run here")
-    // console.log(store.state)
-    request.headers.Authorization = store.state.auth.token;
+    request.headers.Authorization = store.state.auth != undefined ? store.state.auth.token : '';
     return request;
 }, error => {
     console.log(error);

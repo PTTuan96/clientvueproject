@@ -5,13 +5,21 @@
     </v-card-title>
     <v-card-text>
       <v-container>
-        
-          <form @submit.prevent="login">
-            <v-text-field v-model="user.username" label="Name" required></v-text-field>
+        <form @submit.prevent="login">
 
-            <v-text-field v-model="user.password" label="E-mail" required></v-text-field>
+          <v-text-field
+            v-model="user.username"
+            label="Email"
+            required
+          ></v-text-field>
 
-            <v-row>
+          <v-text-field
+            v-model="user.password"
+            label="Password"
+            required
+          ></v-text-field>
+
+          <v-row>
             <v-col>
               <v-btn type="submit" color="blue darken-1" text>Confirm</v-btn>
             </v-col>
@@ -19,11 +27,13 @@
             <v-spacer></v-spacer>
 
             <v-col>
-              <v-btn @click.prevent="getMembers" color="blue darken-1" text>Signin</v-btn>
+              <v-btn @click.prevent="getMembers" color="blue darken-1" text
+                >Get Members</v-btn
+              >
             </v-col>
           </v-row>
-          </form>
-      
+
+        </form>
       </v-container>
     </v-card-text>
   </v-card>
@@ -33,17 +43,30 @@ export default {
   data() {
     return {
       user: {
-        username: "new1@gmail.com",
-        password: "123",
+        username: "",
+        password: "",
       },
+      
     };
+  },
+  computed: {
+    isLoggedIn: function () {
+      return this.$store.getters.isLoggedIn;
+    },
   },
   methods: {
     login: function () {
       this.$store
         .dispatch("auth/login", this.user)
         .then(() => {
-          //this.$router.push('/')
+          const status = this.$store.state.auth;
+          if (status === null || status === undefined) {
+            this.$router.push("/");
+          } else if (status.role === "USER" || status.role === "MEMBER") {
+            this.$store.dialog = true
+          } else {
+            //  this.$router.push('/admin/layout');
+          }
         })
         .catch((err) => console.log(err));
     },

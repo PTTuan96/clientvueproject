@@ -1,4 +1,4 @@
-import { login } from '@/api/UserApi';
+import { login, userRegister } from '@/api/UserApi';
 import { getListMember } from '@/api/MemberApi';
 
 // const state = {
@@ -14,7 +14,8 @@ const state = {
     name: '',
     avatar: '',
     role: localStorage.getItem('role') || '',
-    status: ''
+    status: '',
+    dialog: false,
 }
 
 const mutations = {
@@ -44,6 +45,7 @@ const actions = {
             login(user)
                 .then(resp => {
                     const user = resp.data.payload
+                    console.log(resp)
                     localStorage.setItem('token', user.token);
                     // localStorage.setItem('role', user.role);
                     commit('auth_success', user);
@@ -59,12 +61,8 @@ const actions = {
     register({ commit }, user) {
         return new Promise((resolve, reject) => {
             commit('auth_request')
-            axios.post("http://localhost:8085/api/v1/auth/register", user)
+            userRegister(user)
                 .then(resp => {
-                    const token = resp.data.token
-                    const user = resp.data.user
-                    localStorage.setItem('token', token)
-                    commit('auth_success', token, user)
                     resolve(resp)
                 })
                 .catch(err => {
@@ -72,8 +70,11 @@ const actions = {
                     localStorage.removeItem('token')
                     reject(err)
                 })
+
+
         })
     },
+
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit('logout')
@@ -84,11 +85,11 @@ const actions = {
     },
 
     getMembers({ commit }) {
-        console.log("Run this")
+        // console.log("Run this")
         return new Promise((resolve, reject) => {
             getListMember().then(res => {
-                console.log("Run ")
-                console.log(res.data);
+                // console.log("Run ")
+                // console.log(res.data);
                 resolve(res);
             })
                 .catch((err) => {
@@ -101,7 +102,7 @@ const actions = {
 const getters = {
     isLoggedIn: state => !!state.token, // change when have token or not
     authStatus: state => state.status,
-
+    
 }
 
 export default {

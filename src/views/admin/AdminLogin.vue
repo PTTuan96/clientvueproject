@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       user: {
-        username: "new1@gmail.com",
-        password: "123",
+        username: "",
+        password: "",
       },
     };
   },
@@ -40,7 +40,7 @@ export default {
             }else if (status.role === 'ADMIN') {
                this.$router.push('/admin/layout');
             }else {
-               this.$router.push('/');
+              //  this.$router.push('/');
             }
           
         })

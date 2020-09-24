@@ -34,9 +34,18 @@ export default {
       this.$store
         .dispatch("auth/login", this.user)
         .then(() => {
-          //this.$router.push('/')
+          const status =  this.$store.state.auth
+            if(status === null || status === undefined) {
+                 this.$router.push('/admin/login');
+            }else if (status.role === 'ADMIN') {
+               this.$router.push('/admin/layout');
+            }else {
+               this.$router.push('/');
+            }
+          
         })
         .catch((err) => console.log(err));
+         
     },
 
     getMembers: function () {

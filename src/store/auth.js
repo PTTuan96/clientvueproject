@@ -10,9 +10,11 @@ import { getListMember } from '@/api/MemberApi';
 // }
 
 const state = {
-    status: '',
     token: localStorage.getItem('token') || '',
-    user: {}
+    name: '',
+    avatar: '',
+    role: localStorage.getItem('role') || '',
+    status: ''
 }
 
 const mutations = {
@@ -21,7 +23,7 @@ const mutations = {
     },
     auth_success(state, user) {
         state.status = 'success'
-        state.user = user
+        state.role = user.role
         state.token = user.token
     },
     auth_error(state) {
@@ -43,6 +45,7 @@ const actions = {
                 .then(resp => {
                     const user = resp.data.payload
                     localStorage.setItem('token', user.token);
+                    // localStorage.setItem('role', user.role);
                     commit('auth_success', user);
                     resolve(resp)
                 })
@@ -96,8 +99,9 @@ const actions = {
 } 
 
 const getters = {
-    isLoggedIn: state => !!state.token,
+    isLoggedIn: state => !!state.token, // change when have token or not
     authStatus: state => state.status,
+
 }
 
 export default {

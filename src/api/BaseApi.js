@@ -6,8 +6,9 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(request => {
-    console.log(store.state.auth.token)
-    request.headers.Authorization =  store.state.auth.token;
+    // console.log("Run here")
+    // console.log(store.state)
+    request.headers.Authorization = store.state.auth.token;
     return request;
 }, error => {
     console.log(error);
@@ -15,13 +16,18 @@ instance.interceptors.request.use(request => {
 });
 
 instance.interceptors.response.use(response => {
-    if(response.status === 401) {
-        //add your code
-        alert("You are not authorized");
-   }
-   return response;
+
+    // if (response.status === 401) {
+    //     //add your code
+    //     alert("You are not authorized");
+    // }
+    // if (response.status === 500) {
+    //     alert("Token expired")
+    // }
+    return response;
 }, error => {
-    console.log(error);
+    // console.log('response')
+    // console.log(error);
     return Promise.reject(error);
 });
 export default instance;

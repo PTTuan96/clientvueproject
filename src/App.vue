@@ -1,7 +1,12 @@
 <template>
   <v-app class="grey lighten-4">
-    <admin/>
-    <web/>
+    <template v-if="true">
+      <admin/>
+    </template>
+    <template v-else>
+      <web/>
+    </template>
+    
   </v-app>
 </template>
 

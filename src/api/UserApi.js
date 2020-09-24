@@ -7,3 +7,7 @@ export function login(user){
 // export function UserRegister(user){
 //     return Api.post('/')
 // }
+
+export function autoLogin(){
+    return Api.post('/auth/autoLogin')
+}

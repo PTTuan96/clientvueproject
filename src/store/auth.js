@@ -1,41 +1,29 @@
 import { login, userRegister } from '@/api/UserApi';
 import { getListMember } from '@/api/MemberApi';
 
-// const state = {
-//     token: getToken(),
-//     name: '',
-//     avatar: '',
-//     introduction: '',
-//     roles: []
-// }
-
 const state = {
     token: localStorage.getItem('token') || '',
-    name: '',
-    avatar: '',
-    role: localStorage.getItem('role') || '',
     status: '',
-    dialog: false,
+    checkAccount: false,
 }
 
 const mutations = {
+
     auth_request(state) {
         state.status = 'loading'
     },
     auth_success(state, user) {
         state.status = 'success'
-        state.role = user.role
         state.token = user.token
     },
     auth_error(state) {
-        state.status = 'error'
+        state.checkAccount = !state.checkAccount
     },
     logout(state) {
         state.status = ''
         state.token = ''
     }
 }
-
 
 const actions = {
 
@@ -44,12 +32,20 @@ const actions = {
             commit('auth_request')
             login(user)
                 .then(resp => {
-                    const user = resp.data.payload
-                    console.log(resp)
-                    localStorage.setItem('token', user.token);
-                    // localStorage.setItem('role', user.role);
-                    commit('auth_success', user);
-                    resolve(resp)
+                    if (resp.data.code === 9999) {
+                        commit('auth_error')
+                        setTimeout(function () {
+                            commit('auth_error')
+                        }, 3000);
+                    } else {
+                        const user = resp.data.payload
+
+                        localStorage.setItem('token', user.token);
+
+                        commit('auth_success', user);
+
+                        resolve(resp)
+                    }
                 })
                 .catch(err => {
                     commit('auth_error')
@@ -79,7 +75,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit('logout')
             localStorage.removeItem('token')
-            delete axios.defaults.headers.common['Authorization']
+            localStorage.removeItem('secure')
             resolve()
         })
     },
@@ -97,12 +93,12 @@ const actions = {
                 })
         })
     }
-} 
+}
 
 const getters = {
     isLoggedIn: state => !!state.token, // change when have token or not
     authStatus: state => state.status,
-    
+
 }
 
 export default {
@@ -111,5 +107,4 @@ export default {
     mutations,
     actions,
     getters
-  }
-  
+}
